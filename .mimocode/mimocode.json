@@ -1,0 +1,53 @@
+{
+  "$schema": "https://mimo.xiaomi.com/mimocode/config.json",
+
+  "provider": {
+    "llamacpp": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "llama.cpp (local, Qwen3-Coder-Next)",
+      "options": {
+        "baseURL": "http://127.0.0.1:8080/v1",
+        "apiKey": "sk-local-llamacpp"
+      },
+      "models": {
+        "qwen3-coder-next": {
+          "name": "Qwen3-Coder-Next UD-Q4_K_XL (local llama.cpp)",
+          "limit": {
+            "context": 262144,
+            "output": 32768
+          }
+        }
+      }
+    }
+  },
+  "model": "llamacpp/qwen3-coder-next",
+  "small_model": "llamacpp/qwen3-coder-next",
+  "compaction": {
+    "auto": true,
+    "threshold": 0.7,
+    "prune": false,
+    "tail_turns": 2
+  },
+  "default_agent": "build",
+  "share": "manual",
+
+  "instructions": ["CLAUDE.md"],
+
+  "permission": {
+    "bash": {
+      "*": "ask",
+      "bun run *": "allow",
+      "bun --version": "allow",
+      "python salary_lookup.py *": "allow",
+      "python3 salary_lookup.py *": "allow",
+      "pdftotext*": "allow",
+      "lualatex *": "allow",
+	  "pdfinfo*": "allow",
+      "xelatex *": "allow"
+    },
+    "skill": {
+      "*": "ask",
+      "job-application-assistant": "allow"
+    }
+  }
+}

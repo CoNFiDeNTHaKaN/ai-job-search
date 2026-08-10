@@ -67,6 +67,17 @@ The framework encodes career guidance best practices, including structured evalu
 - LaTeX distribution with `lualatex` and `xelatex`: [TeX Live](https://tug.org/texlive/), [MacTeX](https://tug.org/mactex/), [TinyTeX](https://yihui.org/tinytex/), or [MiKTeX](https://miktex.org/). The CV compiles with `lualatex` (pdflatex often fails on modern MiKTeX installs with `fontawesome5` font-expansion errors); the cover letter compiles with `xelatex` because `cover.cls` requires `fontspec`. If using a minimal TeX install such as TinyTeX or BasicTeX, install the extra packages listed in [SETUP.md](SETUP.md#minimal-tex-install-tinytexbasictex).
 - Optional: `pdftotext` from [poppler](https://poppler.freedesktop.org/) (macOS: `brew install poppler`, Debian/Ubuntu: `apt install poppler-utils`, Windows: `choco install poppler`) — used by `/apply`'s ATS parseability check on the compiled CV. If missing, the check degrades gracefully to a visual keyword review.
 
+## Running under MiMo Code
+
+This fork also runs on [MiMo Code](https://github.com/XiaomiMiMo/MiMo-Code) against a local model. `.mimocode/` is the primary integration for that path (`.claude/` is kept alongside it so Claude Code behavior can still be diffed). See [`AGENTS.md`](AGENTS.md#mimo-code-integration) for what got ported and why.
+
+1. Start `llama-server` (llama.cpp) with an OpenAI-compatible endpoint and tool calling enabled:
+   ```bash
+   llama-server -m /path/to/Qwen3-Coder-Next-UD-Q4_K_XL.gguf --jinja --port 8080
+   ```
+2. Launch `mimo` in this directory. All 12 top-level commands (`/setup`, `/apply`, `/rank`, `/interview`, `/outcome`, `/expand`, `/reset`, `/add-portal`, `/add-template`, `/gmail-sync`, `/html-report`, `/notion-sync`) autocomplete from `.mimocode/commands/`; `/scrape` and `/upskill` are skills, discovered automatically from `.claude/skills/`.
+3. `.mimocode/mimocode.json` already points `model`/`small_model` at `llamacpp/qwen3-coder-next` via a local `@ai-sdk/openai-compatible` provider on `http://127.0.0.1:8080/v1` — no `/connect` step needed if `llama-server` is running on the default port. Change the `baseURL` there if your server runs elsewhere.
+
 ## Quick start
 
 > 🎥 **Prefer to see it in action first?** [The Next New Thing did a hands-on walkthrough](https://www.youtube.com/watch?v=HoVxjMNFYv4) of how the workflow is actually used, from setup to a finished application (recorded August 2026 - commands may have evolved since).
