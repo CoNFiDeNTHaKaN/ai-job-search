@@ -17,6 +17,35 @@
 \renewcommand*{\lastnamestyle}[1]{{\fontsize{34}{36}\bfseries\upshape\color{color1}#1}}
 \renewcommand*{\sectionstyle}[1]{{\sectionfont\color{color1}#1}}
 
+% ============================================================
+%     ATS-SAFETY FIX: plain-text contact symbols
+% ============================================================
+% moderncv's default "banking" style draws the phone/email/homepage/social
+% icons using FontAwesome5 glyphs (\faMobile, \faEnvelope, etc.). Under
+% lualatex the PDF's ToUnicode CMap for these icon glyphs is not always
+% embedded correctly, so text-extraction tools (including the parsers used
+% by ATS systems) read back the icon's internal FontAwesome name instead of
+% a blank glyph -- e.g. the mobile icon extracts as the literal text
+% "MOBILE-ALT" glued directly onto the phone number, and the email icon
+% extracts as "Envelope". This silently corrupts the contact-info line for
+% every automated system that reads the CV as text, even though the icons
+% render correctly when the PDF is viewed visually -- which is why the bug
+% is easy to miss.
+%
+% Fix: override moderncv's documented symbol macros (moderncviconsawesome.sty)
+% with plain text labels instead of icon glyphs. This removes the dependency
+% on FontAwesome ligatures for the header entirely, so the extracted text is
+% always clean regardless of engine (lualatex/pdflatex) or font backend.
+\renewcommand*{\mobilephonesymbol}{Mobile:~}
+\renewcommand*{\fixedphonesymbol}{Phone:~}
+\renewcommand*{\faxphonesymbol}{Fax:~}
+\renewcommand*{\emailsymbol}{Email:~}
+\renewcommand*{\homepagesymbol}{Web:~}
+\renewcommand*{\linkedinsocialsymbol}{LinkedIn:~}
+\renewcommand*{\githubsocialsymbol}{GitHub:~}
+\renewcommand*{\addresssymbol}{}
+% ============================================================
+
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
 \hypersetup{
@@ -79,10 +108,10 @@
 % --- Most Recent Role ---
 \item{\cventry{[YYYY-Present]}{[Job Title]}{[Company]}{[City, Country]}{}{\vspace{1pt}
 \begin{itemize}
-    \item [Achievement or responsibility 1 - be specific, use numbers where possible]
-    \item [Achievement or responsibility 2]
-    \item [Achievement or responsibility 3]
-    \item [Achievement or responsibility 4]
+    \item\relax [Achievement or responsibility 1 - be specific, use numbers where possible]
+    \item\relax [Achievement or responsibility 2]
+    \item\relax [Achievement or responsibility 3]
+    \item\relax [Achievement or responsibility 4]
 \end{itemize}}}
 
 \vspace{3pt}
@@ -90,9 +119,9 @@
 % --- Previous Role ---
 \item{\cventry{[YYYY-YYYY]}{[Job Title]}{[Company]}{[City, Country]}{}{\vspace{1pt}
 \begin{itemize}
-    \item [Achievement or responsibility 1]
-    \item [Achievement or responsibility 2]
-    \item [Achievement or responsibility 3]
+    \item\relax [Achievement or responsibility 1]
+    \item\relax [Achievement or responsibility 2]
+    \item\relax [Achievement or responsibility 3]
 \end{itemize}}}
 
 \vspace{3pt}
@@ -100,8 +129,8 @@
 % --- Earlier Role ---
 \item{\cventry{[YYYY-YYYY]}{[Job Title]}{[Company]}{[City, Country]}{}{\vspace{1pt}
 \begin{itemize}
-    \item [Achievement or responsibility 1]
-    \item [Achievement or responsibility 2]
+    \item\relax [Achievement or responsibility 1]
+    \item\relax [Achievement or responsibility 2]
 \end{itemize}}}
 
 \end{itemize}
@@ -133,7 +162,7 @@ Thesis: ``[Thesis Title].'' [Brief description of research focus.]
 \section{Languages}
 \vspace{1pt}
 \begin{itemize}
-\item [Language 1] (native), [Language 2] (fluent), [Language 3] (intermediate).
+\item\relax [Language 1] (native), [Language 2] (fluent), [Language 3] (intermediate).
 \end{itemize}
 
 % ============================================================
@@ -143,7 +172,7 @@ Thesis: ``[Thesis Title].'' [Brief description of research focus.]
 \section{Publications}
 \vspace{1pt}
 \begin{itemize}
-\item [Author(s)] ([Year]). [Title]. [Journal/Conference]. \href{[DOI_URL]}{DOI link}
+\item\relax [Author(s)] ([Year]). [Title]. [Journal/Conference]. \href{[DOI_URL]}{DOI link}
 \end{itemize}
 
 % ============================================================
